@@ -19,7 +19,7 @@ import saveIcon from './icon--save.svg';
 
 import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
-import {manualUpdateProject} from '../../reducers/project-state.js';
+import {getIsUpdating, manualUpdateProject} from '../../reducers/project-state.js';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -53,6 +53,7 @@ const StageHeaderComponent = function (props) {
     const {
         isFullScreen,
         isPlayerOnly,
+        isUpdating,
         onKeyPress,
         onSetStageLarge,
         onSetStageSmall,
@@ -140,6 +141,7 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
+                        {isUpdating && <div className={styles.stageSaveText}>{'저장 중..'}</div>}
                         <Button
                             className={styles.stageButton}
                             onClick={onClickSave}
@@ -177,10 +179,14 @@ const StageHeaderComponent = function (props) {
     return header;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => {
+    const loadingState = state.scratchGui.projectState.loadingState;
+    return {
     // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
-});
+        stageSizeMode: state.scratchGui.stageSize.stageSize,
+        isUpdating: getIsUpdating(loadingState)
+    };
+};
 
 const mapDispatchToProps = dispatch => ({
     onClickSave: () => dispatch(manualUpdateProject())

@@ -88,3 +88,17 @@
 
     margin: 0 8px;
 }
+
+.stage-save-text {
+    margin-right: 8px;
+    background-color: transparent;
+
+    opacity: 0.6;
+
+    color:  #363636;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 114.286% */
+}
