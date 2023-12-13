@@ -15,9 +15,11 @@ import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
+import saveIcon from './icon--save.svg';
 
 import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
+import {manualUpdateProject} from '../../reducers/project-state.js';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -58,6 +60,7 @@ const StageHeaderComponent = function (props) {
         onSetStageUnFull,
         showBranding,
         stageSizeMode,
+        onClickSave,
         vm
     } = props;
 
@@ -137,6 +140,19 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
+                        <Button
+                            className={styles.stageButton}
+                            onClick={onClickSave}
+                        >
+                            <img
+                                alt={'저장하기'}
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={saveIcon}
+                                title={'저장하기'}
+                            />
+                        </Button>
+                        <div className={styles.stageDivider} />
                         {stageControls}
                         <div>
                             <Button
@@ -166,6 +182,10 @@ const mapStateToProps = state => ({
     stageSizeMode: state.scratchGui.stageSize.stageSize
 });
 
+const mapDispatchToProps = dispatch => ({
+    onClickSave: () => dispatch(manualUpdateProject())
+});
+
 StageHeaderComponent.propTypes = {
     intl: intlShape,
     isFullScreen: PropTypes.bool.isRequired,
@@ -185,5 +205,6 @@ StageHeaderComponent.defaultProps = {
 };
 
 export default injectIntl(connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(StageHeaderComponent));
