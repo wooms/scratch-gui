@@ -16,10 +16,11 @@ import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 import saveIcon from './icon--save.svg';
+import checkboxCircleLineIcon from './icon--checkbox-circle-line.svg';
 
 import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
-import {getIsUpdating, manualUpdateProject} from '../../reducers/project-state.js';
+import {getIsAutoUpdating, getIsManualUpdating, manualUpdateProject} from '../../reducers/project-state.js';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -53,7 +54,9 @@ const StageHeaderComponent = function (props) {
     const {
         isFullScreen,
         isPlayerOnly,
-        isUpdating,
+        isAutoUpdating,
+        isManualUpdating,
+        isSaveSuccessAlertVisible,
         onKeyPress,
         onSetStageLarge,
         onSetStageSmall,
@@ -141,7 +144,18 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
-                        {isUpdating && <div className={styles.stageSaveText}>{'저장 중..'}</div>}
+                        {isSaveSuccessAlertVisible &&
+                            <>
+                                <img
+                                    src={checkboxCircleLineIcon}
+                                    className={styles.stageSaveIcon}
+                                />
+                                <div className={styles.stageSaveText}>
+                                    {'저장함'}
+                                </div>
+                            </>}
+                        {isAutoUpdating && <div className={styles.stageSaveText}>{'자동 저장 중..'}</div>}
+                        {isManualUpdating && <div className={styles.stageSaveText}>{'저장 중..'}</div>}
                         <Button
                             className={styles.stageButton}
                             onClick={onClickSave}
@@ -181,10 +195,16 @@ const StageHeaderComponent = function (props) {
 
 const mapStateToProps = state => {
     const loadingState = state.scratchGui.projectState.loadingState;
+    const alertState = state.scratchGui.alerts;
     return {
-    // This is the button's mode, as opposed to the actual current state
+        // This is the button's mode, as opposed to the actual current state
         stageSizeMode: state.scratchGui.stageSize.stageSize,
-        isUpdating: getIsUpdating(loadingState)
+        isAutoUpdating: getIsAutoUpdating(loadingState),
+        isManualUpdating: getIsManualUpdating(loadingState),
+        // 저장 완료 상태는 따로 정의되어 있지 않습니다. 단, Alert의 형태로 저장 완료 메시지가 노출됩니다.
+        // 이 Alert의 상태를 확인하여 저장완료 텍스트를 노출합니다.
+        isSaveSuccessAlertVisible: (alertState.visible &&
+            alertState.alertsList.some(alert => alert.alertId === 'saveSuccess'))
     };
 };
 
