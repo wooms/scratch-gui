@@ -9,7 +9,7 @@ import Button from '../button/button.jsx';
 import ToggleButtons from '../toggle-buttons/toggle-buttons.jsx';
 import Controls from '../../containers/controls.jsx';
 import {getStageDimensions} from '../../lib/screen-utils';
-import {STAGE_SIZE_MODES} from '../../lib/layout-constants';
+import {STAGE_DISPLAY_SIZES, STAGE_SIZE_MODES} from '../../lib/layout-constants';
 
 import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
@@ -144,18 +144,27 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
-                        {isSaveSuccessAlertVisible &&
+                        {stageSizeMode === STAGE_DISPLAY_SIZES.large ? (
                             <>
-                                <img
-                                    src={checkboxCircleLineIcon}
-                                    className={styles.stageSaveIcon}
-                                />
-                                <div className={styles.stageSaveText}>
-                                    {'저장함'}
-                                </div>
-                            </>}
-                        {isAutoUpdating && <div className={styles.stageSaveText}>{'자동 저장 중..'}</div>}
-                        {isManualUpdating && <div className={styles.stageSaveText}>{'저장 중..'}</div>}
+                                {isSaveSuccessAlertVisible ? (
+                                    <>
+                                        <img
+                                            src={checkboxCircleLineIcon}
+                                            className={styles.stageSaveIcon}
+                                        />
+                                        <div className={styles.stageSaveText}>
+                                            {'저장함'}
+                                        </div>
+                                    </>
+                                ) : null}
+                                {isAutoUpdating ? (
+                                    <div className={styles.stageSaveText}>{'자동 저장 중..'}</div>
+                                ) : null}
+                                {isManualUpdating ? (
+                                    <div className={styles.stageSaveText}>{'저장 중..'}</div>
+                                ) : null}
+                            </>
+                        ) : null}
                         <Button
                             className={styles.stageButton}
                             onClick={onClickSave}
