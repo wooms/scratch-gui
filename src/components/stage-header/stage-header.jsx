@@ -165,7 +165,7 @@ const StageHeaderComponent = function (props) {
                                 ) : null}
                             </>
                         ) : null}
-                        <Button
+                        {isPlayerOnly ? null : <Button
                             className={styles.stageButton}
                             onClick={onClickSave}
                         >
@@ -177,6 +177,7 @@ const StageHeaderComponent = function (props) {
                                 title={'저장하기'}
                             />
                         </Button>
+                        }
                         <div className={styles.stageDivider} />
                         {stageControls}
                         <div>
