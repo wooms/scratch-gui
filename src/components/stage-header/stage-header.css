@@ -34,6 +34,7 @@
 
 .stage-size-row {
     display: flex;
+    align-items: center;
 }
 
 .stage-size-toggle-group {
@@ -77,4 +78,34 @@
 
 [dir="rtl"] .stage-button-icon {
     transform: scaleX(-1);
+}
+
+.stage-divider {
+    width: 1px;
+    height: 16px;
+    opacity: 0.5;
+    background: #3e88ff;
+
+    margin: 0 8px;
+}
+
+.stage-save-icon {
+    background-color: transparent;
+    margin-right: 4px;
+    opacity: 0.6;
+}
+
+
+.stage-save-text {
+    margin-right: 8px;
+    background-color: transparent;
+
+    opacity: 0.6;
+
+    color:  #363636;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 114.286% */
 }

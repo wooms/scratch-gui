@@ -78,6 +78,9 @@ const getIsAnyCreatingNewState = loadingState => (
 const getIsCreatingCopy = loadingState => (
     loadingState === LoadingState.CREATING_COPY
 );
+const getIsAutoUpdating = loadingState => (
+    loadingState === LoadingState.AUTO_UPDATING
+);
 const getIsManualUpdating = loadingState => (
     loadingState === LoadingState.MANUAL_UPDATING
 );
@@ -523,6 +526,7 @@ export {
     getIsLoading,
     getIsLoadingWithId,
     getIsLoadingUpload,
+    getIsAutoUpdating,
     getIsManualUpdating,
     getIsRemixing,
     getIsShowingProject,

@@ -9,15 +9,18 @@ import Button from '../button/button.jsx';
 import ToggleButtons from '../toggle-buttons/toggle-buttons.jsx';
 import Controls from '../../containers/controls.jsx';
 import {getStageDimensions} from '../../lib/screen-utils';
-import {STAGE_SIZE_MODES} from '../../lib/layout-constants';
+import {STAGE_DISPLAY_SIZES, STAGE_SIZE_MODES} from '../../lib/layout-constants';
 
 import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
+import saveIcon from './icon--save.svg';
+import checkboxCircleLineIcon from './icon--checkbox-circle-line.svg';
 
 import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
+import {getIsAutoUpdating, getIsManualUpdating, manualUpdateProject} from '../../reducers/project-state.js';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -51,6 +54,9 @@ const StageHeaderComponent = function (props) {
     const {
         isFullScreen,
         isPlayerOnly,
+        isAutoUpdating,
+        isManualUpdating,
+        isSaveSuccessAlertVisible,
         onKeyPress,
         onSetStageLarge,
         onSetStageSmall,
@@ -58,6 +64,7 @@ const StageHeaderComponent = function (props) {
         onSetStageUnFull,
         showBranding,
         stageSizeMode,
+        onClickSave,
         vm
     } = props;
 
@@ -137,6 +144,40 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
+                        {stageSizeMode === STAGE_DISPLAY_SIZES.large ? (
+                            <>
+                                {isSaveSuccessAlertVisible ? (
+                                    <>
+                                        <img
+                                            src={checkboxCircleLineIcon}
+                                            className={styles.stageSaveIcon}
+                                        />
+                                        <div className={styles.stageSaveText}>
+                                            {'저장함'}
+                                        </div>
+                                    </>
+                                ) : null}
+                                {isAutoUpdating ? (
+                                    <div className={styles.stageSaveText}>{'자동 저장 중..'}</div>
+                                ) : null}
+                                {isManualUpdating ? (
+                                    <div className={styles.stageSaveText}>{'저장 중..'}</div>
+                                ) : null}
+                            </>
+                        ) : null}
+                        <Button
+                            className={styles.stageButton}
+                            onClick={onClickSave}
+                        >
+                            <img
+                                alt={'저장하기'}
+                                className={styles.stageButtonIcon}
+                                draggable={false}
+                                src={saveIcon}
+                                title={'저장하기'}
+                            />
+                        </Button>
+                        <div className={styles.stageDivider} />
                         {stageControls}
                         <div>
                             <Button
@@ -161,9 +202,23 @@ const StageHeaderComponent = function (props) {
     return header;
 };
 
-const mapStateToProps = state => ({
-    // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
+const mapStateToProps = state => {
+    const loadingState = state.scratchGui.projectState.loadingState;
+    const alertState = state.scratchGui.alerts;
+    return {
+        // This is the button's mode, as opposed to the actual current state
+        stageSizeMode: state.scratchGui.stageSize.stageSize,
+        isAutoUpdating: getIsAutoUpdating(loadingState),
+        isManualUpdating: getIsManualUpdating(loadingState),
+        // 저장 완료 상태는 따로 정의되어 있지 않습니다. 단, Alert의 형태로 저장 완료 메시지가 노출됩니다.
+        // 이 Alert의 상태를 확인하여 저장완료 텍스트를 노출합니다.
+        isSaveSuccessAlertVisible: (alertState.visible &&
+            alertState.alertsList.some(alert => alert.alertId === 'saveSuccess'))
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    onClickSave: () => dispatch(manualUpdateProject())
 });
 
 StageHeaderComponent.propTypes = {
@@ -185,5 +240,6 @@ StageHeaderComponent.defaultProps = {
 };
 
 export default injectIntl(connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(StageHeaderComponent));
