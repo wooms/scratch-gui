@@ -14,11 +14,9 @@ import {STAGE_DISPLAY_SIZES, STAGE_SIZE_MODES} from '../../lib/layout-constants'
 import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
-import unFullScreenIcon from './icon--unfullscreen.svg';
 import saveIcon from './icon--save.svg';
 import checkboxCircleLineIcon from './icon--checkbox-circle-line.svg';
 
-import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
 import {getIsAutoUpdating, getIsManualUpdating, manualUpdateProject} from '../../reducers/project-state.js';
 
@@ -57,12 +55,9 @@ const StageHeaderComponent = function (props) {
         isAutoUpdating,
         isManualUpdating,
         isSaveSuccessAlertVisible,
-        onKeyPress,
         onSetStageLarge,
         onSetStageSmall,
         onSetStageFull,
-        onSetStageUnFull,
-        showBranding,
         stageSizeMode,
         onClickSave,
         vm
@@ -72,36 +67,6 @@ const StageHeaderComponent = function (props) {
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
-        const stageButton = showBranding ? (
-            <div className={styles.embedScratchLogo}>
-                <a
-                    href="https://scratch.mit.edu"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                >
-                    <img
-                        alt="Scratch"
-                        src={scratchLogo}
-                    />
-                </a>
-            </div>
-        ) : (
-            <div className={styles.unselectWrapper}>
-                <Button
-                    className={styles.stageButton}
-                    onClick={onSetStageUnFull}
-                    onKeyPress={onKeyPress}
-                >
-                    <img
-                        alt={props.intl.formatMessage(messages.unFullStageSizeMessage)}
-                        className={styles.stageButtonIcon}
-                        draggable={false}
-                        src={unFullScreenIcon}
-                        title={props.intl.formatMessage(messages.fullscreenControl)}
-                    />
-                </Button>
-            </div>
-        );
         header = (
             <Box className={styles.stageHeaderWrapperOverlay}>
                 <Box
@@ -109,7 +74,6 @@ const StageHeaderComponent = function (props) {
                     style={{width: stageDimensions.width}}
                 >
                     <Controls vm={vm} />
-                    {stageButton}
                 </Box>
             </Box>
         );
