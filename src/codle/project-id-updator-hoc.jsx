@@ -30,10 +30,7 @@ const ProjectIdUpdatorHOC = function (WrappedComponent) {
             dispatch(setProjectId(projectId));
         }
     });
-    return connect(
-        () => {},
-        mapDispatchToProps,
-    )(ProjectIdUpdatorComponent);
+    return connect(null, mapDispatchToProps)(ProjectIdUpdatorComponent);
 };
 
 export {
