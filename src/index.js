@@ -4,7 +4,7 @@ import GuiReducer, {guiInitialState, guiMiddleware, initEmbedded, initFullScreen
 import LocalesReducer, {localesInitialState, initLocale} from './reducers/locales';
 import {ScratchPaintReducer} from 'scratch-paint';
 import {setFullScreen, setPlayer} from './reducers/mode';
-import {remixProject} from './reducers/project-state';
+import {remixProject, reloadProject} from './reducers/project-state';
 import {setAppElement} from 'react-modal';
 import ProjectIdUpdatorHOC from './codle/project-id-updator-hoc.jsx';
 
@@ -28,6 +28,7 @@ export {
     initLocale,
     localesInitialState,
     remixProject,
+    reloadProject,
     setFullScreen,
     setPlayer
 };
