@@ -155,6 +155,7 @@ const GUIComponent = props => {
                 loading={loading}
                 stageSize={STAGE_SIZE_MODES.large}
                 vm={vm}
+                canSave={canSave}
             >
                 {alertsVisible ? (
                     <Alerts className={styles.alertsContainer} />
@@ -362,6 +363,7 @@ const GUIComponent = props => {
                                 isRtl={isRtl}
                                 stageSize={stageSize}
                                 vm={vm}
+                                canSave={canSave}
                             />
                             <Box className={styles.targetWrapper}>
                                 <TargetPane

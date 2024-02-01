@@ -48,6 +48,7 @@ StageHeader.propTypes = {
     onSetStageUnFull: PropTypes.func.isRequired,
     showBranding: PropTypes.bool,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
+    canSave: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired
 };
 
