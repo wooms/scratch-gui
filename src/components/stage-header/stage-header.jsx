@@ -16,11 +16,13 @@ import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 import saveIcon from './icon--save.svg';
+import sb3SaveIcon from './icon--sb3-save.svg';
 import checkboxCircleLineIcon from './icon--checkbox-circle-line.svg';
 
 import scratchLogo from '../menu-bar/scratch-logo.svg';
 import styles from './stage-header.css';
 import {getIsAutoUpdating, getIsManualUpdating, manualUpdateProject} from '../../reducers/project-state.js';
+import SB3Downloader from '../../containers/sb3-downloader.jsx';
 
 const messages = defineMessages({
     largeStageSizeMessage: {
@@ -69,6 +71,7 @@ const StageHeaderComponent = function (props) {
     } = props;
 
     let header = null;
+    const isDevMode = localStorage.getItem('devMode') === 'true';
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
@@ -144,39 +147,54 @@ const StageHeaderComponent = function (props) {
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
                     <div className={styles.stageSizeRow}>
-                        {stageSizeMode === STAGE_DISPLAY_SIZES.large ? (
-                            <>
-                                {isSaveSuccessAlertVisible ? (
-                                    <>
+                        <div className={styles.stageSaveButtons}>
+                            {stageSizeMode === STAGE_DISPLAY_SIZES.large ? (
+                                <div className={styles.stageSaveAlert}>
+                                    {isSaveSuccessAlertVisible ? (
+                                        <>
+                                            <img src={checkboxCircleLineIcon} />
+                                            <div className={styles.stageSaveAlertText}>
+                                                {'저장함'}
+                                            </div>
+                                        </>
+                                    ) : null}
+                                    {isAutoUpdating ? (
+                                        <div className={styles.stageSaveAlertText}>{'자동 저장 중..'}</div>
+                                    ) : null}
+                                    {isManualUpdating ? (
+                                        <div className={styles.stageSaveAlertText}>{'저장 중..'}</div>
+                                    ) : null}
+                                </div>
+                            ) : null}
+                            <Button
+                                className={styles.stageButton}
+                                onClick={onClickSave}
+                            >
+                                <img
+                                    alt={'저장하기'}
+                                    className={styles.stageButtonIcon}
+                                    draggable={false}
+                                    src={saveIcon}
+                                    title={'저장하기'}
+                                />
+                            </Button>
+                            {isDevMode ? (
+                                <SB3Downloader>{(_, downloadProject) => (
+                                    <Button
+                                        className={styles.stageButton}
+                                        onClick={downloadProject}
+                                    >
                                         <img
-                                            src={checkboxCircleLineIcon}
-                                            className={styles.stageSaveIcon}
+                                            alt={'컴퓨터에 다운로드하기'}
+                                            className={styles.stageButtonIcon}
+                                            draggable={false}
+                                            src={sb3SaveIcon}
+                                            title={'컴퓨터에 다운로드하기'}
                                         />
-                                        <div className={styles.stageSaveText}>
-                                            {'저장함'}
-                                        </div>
-                                    </>
-                                ) : null}
-                                {isAutoUpdating ? (
-                                    <div className={styles.stageSaveText}>{'자동 저장 중..'}</div>
-                                ) : null}
-                                {isManualUpdating ? (
-                                    <div className={styles.stageSaveText}>{'저장 중..'}</div>
-                                ) : null}
-                            </>
-                        ) : null}
-                        <Button
-                            className={styles.stageButton}
-                            onClick={onClickSave}
-                        >
-                            <img
-                                alt={'저장하기'}
-                                className={styles.stageButtonIcon}
-                                draggable={false}
-                                src={saveIcon}
-                                title={'저장하기'}
-                            />
-                        </Button>
+                                    </Button>
+                                )}</SB3Downloader>
+                            ) : null}
+                        </div>
                         <div className={styles.stageDivider} />
                         {stageControls}
                         <div>
