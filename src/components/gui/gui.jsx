@@ -366,6 +366,7 @@ const GUIComponent = props => {
                                 stageSize={stageSize}
                                 vm={vm}
                                 canSave={canSave}
+                                stageButtonVisible={stageButtonVisible}
                             />
                             <Box className={styles.targetWrapper}>
                                 <TargetPane
