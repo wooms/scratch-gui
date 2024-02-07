@@ -119,6 +119,7 @@ const GUIComponent = props => {
         showComingSoon,
         showMenuBar,
         soundsTabVisible,
+        stageButtonVisible,
         stageSizeMode,
         targetIsStage,
         telemetryModalVisible,
@@ -155,6 +156,8 @@ const GUIComponent = props => {
                 loading={loading}
                 stageSize={STAGE_SIZE_MODES.large}
                 vm={vm}
+                canSave={canSave}
+                stageButtonVisible={stageButtonVisible}
             >
                 {alertsVisible ? (
                     <Alerts className={styles.alertsContainer} />
@@ -362,6 +365,8 @@ const GUIComponent = props => {
                                 isRtl={isRtl}
                                 stageSize={stageSize}
                                 vm={vm}
+                                canSave={canSave}
+                                stageButtonVisible={stageButtonVisible}
                             />
                             <Box className={styles.targetWrapper}>
                                 <TargetPane
@@ -439,6 +444,7 @@ GUIComponent.propTypes = {
     showComingSoon: PropTypes.bool,
     showMenuBar: PropTypes.bool,
     soundsTabVisible: PropTypes.bool,
+    stageButtonVisible: PropTypes.bool,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
     targetIsStage: PropTypes.bool,
     telemetryModalVisible: PropTypes.bool,
@@ -468,6 +474,7 @@ GUIComponent.defaultProps = {
     loading: false,
     showComingSoon: false,
     showMenuBar: true,
+    stageButtonVisible: true,
     stageSizeMode: STAGE_SIZE_MODES.large
 };
 

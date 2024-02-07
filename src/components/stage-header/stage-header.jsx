@@ -63,8 +63,10 @@ const StageHeaderComponent = function (props) {
         onSetStageFull,
         onSetStageUnFull,
         showBranding,
+        stageButtonVisible,
         stageSizeMode,
         onClickSave,
+        canSave,
         vm
     } = props;
 
@@ -109,7 +111,7 @@ const StageHeaderComponent = function (props) {
                     style={{width: stageDimensions.width}}
                 >
                     <Controls vm={vm} />
-                    {stageButton}
+                    {stageButtonVisible ? stageButton : null}
                 </Box>
             </Box>
         );
@@ -165,7 +167,7 @@ const StageHeaderComponent = function (props) {
                                 ) : null}
                             </>
                         ) : null}
-                        <Button
+                        {canSave ? <Button
                             className={styles.stageButton}
                             onClick={onClickSave}
                         >
@@ -176,7 +178,7 @@ const StageHeaderComponent = function (props) {
                                 src={saveIcon}
                                 title={'저장하기'}
                             />
-                        </Button>
+                        </Button> : null }
                         <div className={styles.stageDivider} />
                         {stageControls}
                         <div>
@@ -231,7 +233,9 @@ StageHeaderComponent.propTypes = {
     onSetStageSmall: PropTypes.func.isRequired,
     onSetStageUnFull: PropTypes.func.isRequired,
     showBranding: PropTypes.bool.isRequired,
+    stageButtonVisible: PropTypes.bool.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
+    canSave: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired
 };
 
