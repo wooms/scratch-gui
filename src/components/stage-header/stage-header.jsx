@@ -63,6 +63,7 @@ const StageHeaderComponent = function (props) {
         onSetStageFull,
         onSetStageUnFull,
         showBranding,
+        stageButtonVisible,
         stageSizeMode,
         onClickSave,
         canSave,
@@ -73,7 +74,7 @@ const StageHeaderComponent = function (props) {
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
-        const stageButton = isPlayerOnly ? null : showBranding ? (
+        const stageButton = showBranding ? (
             <div className={styles.embedScratchLogo}>
                 <a
                     href="https://scratch.mit.edu"
@@ -110,7 +111,7 @@ const StageHeaderComponent = function (props) {
                     style={{width: stageDimensions.width}}
                 >
                     <Controls vm={vm} />
-                    {stageButton}
+                    {stageButtonVisible ? stageButton : null}
                 </Box>
             </Box>
         );
@@ -232,6 +233,7 @@ StageHeaderComponent.propTypes = {
     onSetStageSmall: PropTypes.func.isRequired,
     onSetStageUnFull: PropTypes.func.isRequired,
     showBranding: PropTypes.bool.isRequired,
+    stageButtonVisible: PropTypes.bool.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
     canSave: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired

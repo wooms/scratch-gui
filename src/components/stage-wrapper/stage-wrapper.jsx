@@ -19,6 +19,7 @@ const StageWrapperComponent = function (props) {
         loading,
         stageSize,
         canSave,
+        stageButtonVisible,
         vm
     } = props;
 
@@ -35,6 +36,7 @@ const StageWrapperComponent = function (props) {
                     stageSize={stageSize}
                     vm={vm}
                     canSave={canSave}
+                    stageButtonVisible={stageButtonVisible}
                 />
             </Box>
             <Box className={styles.stageCanvasWrapper}>
@@ -61,6 +63,7 @@ StageWrapperComponent.propTypes = {
     loading: PropTypes.bool,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     canSave: PropTypes.bool,
+    stageButtonVisible: PropTypes.bool.isRequired,
     vm: PropTypes.instanceOf(VM).isRequired
 };
 
