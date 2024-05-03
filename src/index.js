@@ -7,6 +7,7 @@ import {setFullScreen, setPlayer} from './reducers/mode';
 import {remixProject, reloadProject} from './reducers/project-state';
 import {setAppElement} from 'react-modal';
 import ProjectIdUpdatorHOC from './codle/project-id-updator-hoc.jsx';
+import SB3Downloader from './containers/sb3-downloader.jsx';
 
 const guiReducers = {
     locales: LocalesReducer,
@@ -30,5 +31,6 @@ export {
     remixProject,
     reloadProject,
     setFullScreen,
-    setPlayer
+    setPlayer,
+    SB3Downloader
 };
