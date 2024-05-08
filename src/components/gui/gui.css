@@ -77,6 +77,12 @@
     border-bottom: 0 !important;
 }
 
+.tab-list-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .tab {
     flex-grow: 1;
     height: 80%;
